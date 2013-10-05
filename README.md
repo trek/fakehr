@@ -77,3 +77,7 @@ Run with:
 ```
 karam start
 ```
+
+## Todo
+
+  * Replace and Restore ActiveX-based requests for IE
