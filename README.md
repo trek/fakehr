@@ -1,4 +1,4 @@
-# fakehr
+# fakehr [![Build Status](https://travis-ci.org/trek/fakehr.png)](https://travis-ci.org/trek/fakehr)
 
 fakehr is a tiny (~50loc) library for intercepting ajax requests in the browser for testing purposes.
 It is application and test library agnostic. fakehr depends on [FakeXMLHttpRequest](https://github.com/trek/FakeXMLHttpRequest).
