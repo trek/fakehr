@@ -35,13 +35,19 @@
       this.stop();
       this.clear();
     },
-    match: function(method, url, readyState){
+    match: function(method, url, data, readyState){
+      if (data === undefined) {
+        data = null;
+      } else if (typeof data === "number") {
+        readyState = data;
+        data = null;
+      }
       if (readyState === undefined) { readyState = 1;}
 
       var requests = this.requests;
       for (var i = requests.length - 1; i >= 0; i--) {
         var request = requests[i];
-        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState) {
+        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState && JSON.stringify(data) === JSON.stringify(request.requestBody)) {
           return request;
         }
       };
