@@ -35,13 +35,23 @@
       this.stop();
       this.clear();
     },
-    match: function(method, url, readyState){
+
+    /**
+     * Matches the given request with mocked.
+     * @param method
+     * @param url
+     * @param readyState
+     * @param requestBody The request body for advanced comparison (useful for POST requests with the same url).
+     * @returns {Object} the matched request if found or undefined.
+     */
+    match: function(method, url, readyState, requestBody){
       if (readyState === undefined) { readyState = 1;}
 
       var requests = this.requests;
       for (var i = requests.length - 1; i >= 0; i--) {
         var request = requests[i];
-        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState) {
+        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState &&
+          (!requestBody || request.requestBody === requestBody)) {
           return request;
         }
       };
