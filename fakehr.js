@@ -8,7 +8,7 @@
   FakeRequest.prototype = FakeXMLHttpRequest.prototype;
 
   // reference the native XMLHttpRequest object so
-  // it can be restored lated
+  // it can be restored later
   var nativeRequest = window.XMLHttpRequest;
 
   var fakehr = {
