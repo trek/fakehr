@@ -11,6 +11,16 @@
   // it can be restored later
   var nativeRequest = window.XMLHttpRequest;
 
+  function extendedMatch(value, expected) {
+    if (value instanceof RegExp) {
+      return value.test(expected);
+    } else if (typeof value === 'function') {
+      return value(expected);
+    } else {
+      return value === expected;
+    }
+  }
+
   var fakehr = {
     addRequest: function(r){
       this.requests.push(r);
@@ -55,9 +65,9 @@
 
         if (request.method.toLowerCase() !== method.toLowerCase()) continue;
 
-        if (request.url !== url) continue;
+        if (!extendedMatch(url, request.url)) continue;
 
-        if (requestBody && request.requestBody !== requestBody) continue;
+        if (requestBody && !extendedMatch(requestBody, request.requestBody)) continue;
 
         return request;
       }
