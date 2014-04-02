@@ -50,13 +50,19 @@
       var requests = this.requests;
       for (var i = requests.length - 1; i >= 0; i--) {
         var request = requests[i];
-        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState &&
-          (!requestBody || request.requestBody === requestBody)) {
-          return request;
-        }
-      };
+
+        if (request.readyState !== readyState) continue;
+
+        if (request.method.toLowerCase() !== method.toLowerCase()) continue;
+
+        if (request.url !== url) continue;
+
+        if (requestBody && request.requestBody !== requestBody) continue;
+
+        return request;
+      }
     }
-  }
+  };
 
   window.fakehr = fakehr;
 })();
