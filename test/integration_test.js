@@ -12,7 +12,7 @@ test("jQuery success", function() {
   var bodyPassed = false;
 
   $.ajax({
-    mehthod: 'get',
+    method: 'get',
     url: '/some/url',
     success: function(resp){
       wasCalled = true;
@@ -20,7 +20,7 @@ test("jQuery success", function() {
     }
   });
 
-  fakehr.match('get', '/some/url').respond(200, {"Content-Type":"applicatio/json"}, '{"bodyPassed":true}');
+  fakehr.match('get', '/some/url').respond(200, {"Content-Type":"application/json"}, '{"bodyPassed":true}');
 
   ok(wasCalled);
   ok(bodyPassed);
@@ -31,7 +31,7 @@ test("jQuery failure", function() {
   var bodyPassed = false;
 
   $.ajax({
-    mehthod: 'get',
+    method: 'get',
     url: '/some/url',
     error: function(xhr, errorType, statusText){
       wasCalled = true;
@@ -41,8 +41,61 @@ test("jQuery failure", function() {
     }
   });
 
-  fakehr.match('get', '/some/url').respond(404, {"Content-Type":"applicatio/json"}, '{"bodyPassed":true}');
+  fakehr.match('get', '/some/url').respond(404, {"Content-Type":"application/json"}, '{"bodyPassed":true}');
 
   ok(wasCalled);
   ok(bodyPassed);
+});
+
+test("stub response for jQuery success", function() {
+  var wasCalled = false;
+  var bodyPassed = false;
+
+  fakehr.stub('get', '/some/url').respond(200, {"Content-Type":"application/json"}, '{"bodyPassed":true}');
+
+  $.ajax({
+    method: 'get',
+    url: '/some/url',
+    success: function(resp){
+      wasCalled = true;
+      bodyPassed = resp.bodyPassed;
+    }
+  });
+
+  ok(wasCalled);
+  ok(bodyPassed);
+});
+
+test("expect response for jQuery success", function() {
+  var wasCalled = false;
+  var bodyPassed = false;
+
+  fakehr.expect('get', '/some/url').respond(200, {"Content-Type":"application/json"}, '{"bodyPassed":true}');
+
+  $.ajax({
+    method: 'get',
+    url: '/some/url',
+    success: function(resp){
+      wasCalled = true;
+      bodyPassed = resp.bodyPassed;
+    }
+  });
+
+  ok(wasCalled);
+  ok(bodyPassed);
+});
+
+test("expect response for jQuery success", function() {
+  fakehr.expect('get', '/some/url').respond(200, {"Content-Type":"application/json"}, '{"bodyPassed":true}');
+
+  var asserted = false;
+  try {
+    fakehr.reset();
+  } catch (e) {
+    if (e.message === 'fakehr expected a request for {"url":"/some/url","method":"get","readyState":1}') {
+      asserted = true;
+    }
+  }
+
+  ok(asserted, "Expected api call was not present and an error was thrown");
 });
