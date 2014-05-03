@@ -21,11 +21,14 @@ Clears the array of intercepted requests. If `response` wasn't triggered on thes
 ###`fakehr.reset()`
 Clears the intercepted requests and restores the native `XMLHttpRequest` object.
 
-###`fakehr.match(httpMethod, url, [readyState])`
+###`fakehr.match(httpMethod, url, [readyState], [requestBody])`
 Searches the intercepted requests for the first open (`readyState` of `1`) request whose
 HTTP method and url match the passed arguments. Optionally you can provide a
 numeric [`readyState` code value](http://www.w3.org/TR/XMLHttpRequest/#states) to search for
-requests in that state.
+requests in that state, and a request body to match different requests to the same URL. Both
+the `url` and `requestBody` parameters can be specified as regular expressions or callbacks.
+Callbacks are invoked the expected value as their only argument and are expected to return a
+boolean indicating whether the value matched or not.
 
 ## Why not Sinon.JS or something else?
 Sinon.JS includes much more than just request mocking. I wanted a single purpose library. Most other
