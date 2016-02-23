@@ -50,7 +50,8 @@
       var requests = this.requests;
       for (var i = requests.length - 1; i >= 0; i--) {
         var request = requests[i];
-        if(request.method.toLowerCase() === method.toLowerCase() && request.url === url && request.readyState === readyState &&
+        var requestMethod = (request.method || "").toLowerCase();
+        if(requestMethod === method.toLowerCase() && request.url === url && request.readyState === readyState &&
           (!requestBody || request.requestBody === requestBody)) {
           return request;
         }

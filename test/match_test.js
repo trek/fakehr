@@ -43,3 +43,9 @@ test("2 post requests with the same url, yet different body", function() {
   equal(fakehr.match('post', '/a/path', 1, 'First POST'), xhr);
   equal(fakehr.match('post', '/a/path', 1, 'Second POST'), xhr2);
 });
+
+test("does not break on matching uninitialized requests", function() {
+  var xhr = new XMLHttpRequest();
+
+  equal(fakehr.match('get', '/a/path'), null);
+});
